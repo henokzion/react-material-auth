@@ -1,10 +1,18 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import * as serviceWorker from './serviceWorker';
+import { BrowserRouter, Route } from "react-router-dom";
 
 import App from "./components/App";
+import Home from "./components/Home";
 
-ReactDOM.render(<App />, document.querySelector("#root"));
+ReactDOM.render(
+    <BrowserRouter>
+        <App>
+            <Route path="/" component={Home}/>
+        </App>
+    </BrowserRouter>
+    , document.querySelector("#root"));
 
 
 

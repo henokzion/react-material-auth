@@ -2,11 +2,11 @@ import React from 'react';
 
 import Header from "./Layout/Header";
 
-export default() => {
+export default(props) => {
     return(
         <div>
             <Header></Header>
-            is this working?
+            {props.children}
         </div>
     )
 }
