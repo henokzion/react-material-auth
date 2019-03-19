@@ -11,10 +11,9 @@ import Signup from "./components/Signup";
 ReactDOM.render(
     <BrowserRouter>
         <App>
-            <Route path="/" component={Home}/>
-            <Route path="/signin" component={Signin}/>
-            <Route path="/signup" component={Signup}/>
-            <Route path="/" component={Home}/>
+            <Route exact path="/" component={Home}/>
+            <Route exact path="/login" component={Signin}/>
+            <Route exact path="/signup" component={Signup}/>
         </App>
     </BrowserRouter>
     , document.querySelector("#root"));

@@ -1,9 +1,10 @@
 import React from "react";
-
+import Header from "../Layout/Header";
 export default()=>{
     return(
-        <div>
+        <React.Fragment>
+            <Header />
             home page
-        </div>
+        </React.Fragment>
     )
 }
