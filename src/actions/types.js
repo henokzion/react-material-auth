@@ -1,0 +1,1 @@
+export const AUTH_SIGNUP = "AUTH_SIGNUP";

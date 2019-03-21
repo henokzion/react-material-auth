@@ -4,8 +4,6 @@ import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import FormControl from '@material-ui/core/FormControl';
-// import FormControlLabel from '@material-ui/core/FormControlLabel';
-// import Checkbox from '@material-ui/core/Checkbox';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
@@ -13,7 +11,10 @@ import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
 import { reduxForm, Field } from "redux-form";
+import { connect } from "react-redux";
 import { compose } from "redux";
+
+import * as actions from "../../actions"
 
 const styles = theme => ({
     main: {
@@ -47,23 +48,23 @@ const styles = theme => ({
     },
 });
 export const renderInput = ({
-	input,
-	label,
-	meta: { touched, error },
-	...custom
-  }) => (
-	<Input
-	  {...input}
-	  {...custom}
-	/>
-  )
+    input,
+    label,
+    meta: { touched, error },
+    ...custom
+}) => (
+        <Input
+            {...input}
+            {...custom}
+        />
+    )
 
 
 class SignIn extends Component {
     constructor(props) {
         super(props);
-        this.state = {email: "", password: ""};
-    
+        this.state = { email: "", password: "" };
+
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
@@ -73,14 +74,14 @@ class SignIn extends Component {
     }
 
     handleChange(event) {
-        this.setState({value: event.target.value});
-      }
-    
-      handleSubmit(event) {
+        this.setState({ value: event.target.value });
+    }
+
+    handleSubmit(event) {
         alert('A name was submitted: ' + this.state.value);
         event.preventDefault();
-      }
-    
+    }
+
     render() {
         const { classes, handleSubmit } = this.props;
         return (
@@ -127,4 +128,8 @@ SignIn.propTypes = {
     classes: PropTypes.object.isRequired,
 };
 
-export default compose(withStyles(styles), reduxForm({ form: "signin" }))(SignIn);
+export default compose(
+    withStyles(styles), 
+    reduxForm({ form: "signin" }),
+    connect(null, actions)
+)(SignIn);
