@@ -85,7 +85,7 @@ class SignUp extends Component {
                         <LockOutlinedIcon />
                     </Avatar>
                     <Typography component="h1" variant="h5">
-                        Sign in
+                        Sign UP
                     </Typography>
                     <form className={classes.form} onSubmit={handleSubmit(this.onsubmit)}>
                         <FormControl margin="normal" required fullWidth>
@@ -95,7 +95,7 @@ class SignUp extends Component {
                         <FormControl margin="normal" required fullWidth>
                             <InputLabel htmlFor="password">Password</InputLabel>
                             <Field component={renderInput} name="password" type="password" id="password" autoComplete="current-password" />
-                        </FormControl>}
+                        </FormControl>
                         <Button
                             type="submit"
                             fullWidth
@@ -103,7 +103,7 @@ class SignUp extends Component {
                             color="primary"
                             className={classes.submit}
                         >
-                            Sign in
+                            Sign Up
                     </Button>
                     </form>
                 </Paper>
