@@ -72,6 +72,9 @@ class SignUp extends Component {
 
     async onsubmit(formData) {
         await this.props.signup(formData);
+        if(!this.props.errorMessage){
+            this.props.history.push("/");
+        }
     }
 
     async responseGoogle (response){
@@ -79,6 +82,9 @@ class SignUp extends Component {
         await this.props.loginWithGoogle({
             access_token : response.accessToken
         });
+        if(!this.props.errorMessage){
+            this.props.history.push("/");
+        }
     }
 
 
