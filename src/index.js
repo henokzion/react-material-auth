@@ -12,8 +12,15 @@ import Signin from "./components/Signin";
 import Signup from "./components/Signup";
 import reducers from "./reducers"
 
+const JWT_TOKEN = localStorage.getItem("JWT_TOKEN")
+
 ReactDOM.render(
-    <Provider store={createStore(reducers, {}, applyMiddleware(reduxThunk))}>
+    <Provider store={createStore(reducers, {
+        auth :{
+            token : JWT_TOKEN,
+            isAuthenticated: JWT_TOKEN? true : false
+        }
+    }, applyMiddleware(reduxThunk))}>
         <BrowserRouter>
             <App>
                 <Route exact path="/" component={Home} />
