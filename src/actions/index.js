@@ -45,3 +45,22 @@ export const login = data => {
         }
     }
 }
+
+export const loginWithGoogle = data => {
+    return async dispatch => {
+        try {
+            const res = await axios.post(`${BaseUrl}/oauth/google`, data)
+            dispatch({
+                type: AUTH_LOGIN,
+                payload: res.data.token
+            });
+
+            localStorage.setItem("JWT_TOKEN", res.data.token);
+        } catch (error) {
+            dispatch({
+                type: AUTH_ERROR,
+                payload: "LOGIN error"
+            })
+        }
+    }
+}

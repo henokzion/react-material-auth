@@ -13,6 +13,7 @@ import withStyles from '@material-ui/core/styles/withStyles';
 import { reduxForm, Field } from "redux-form";
 import { connect } from "react-redux";
 import { compose } from "redux";
+import { GoogleLogin } from "react-google-login";
 
 import * as actions from "../../actions"
 
@@ -66,13 +67,18 @@ class SignUp extends Component {
         this.state = {};
 
         this.onsubmit = this.onsubmit.bind(this);
+        this.responseGoogle = this.responseGoogle.bind(this);
     }
 
     async onsubmit(formData) {
-        console.log("onsubmit got called", formData)
-        const res = await this.props.signup(formData);
-        console.log(res);
-        console.log(this.props.errorMessage);
+        await this.props.signup(formData);
+    }
+
+    async responseGoogle (response){
+        console.log(response.accessToken);
+        await this.props.loginWithGoogle({
+            access_token : response.accessToken
+        });
     }
 
 
@@ -104,7 +110,13 @@ class SignUp extends Component {
                                     {this.props.errorMessage}
                                 </Typography> : ""
                         }
-
+                        <GoogleLogin
+                            clientId="366510432233-cp0s337b63lkjg2g8sc2gvjas26gt3ns.apps.googleusercontent.com"
+                            buttonText=""
+                            onSuccess={this.responseGoogle}
+                            onFailure={this.responseGoogle}
+                        />
+                      
                         <Button
                             type="submit"
                             fullWidth
