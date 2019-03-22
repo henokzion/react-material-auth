@@ -10,7 +10,7 @@ const DEFAULT_STATE = {
 }
 
 export default (state = DEFAULT_STATE, action) => {
-    switch (action.token) {
+    switch (action.type) {
         case AUTH_SIGNUP:
             return {
                 ...state,
@@ -21,7 +21,6 @@ export default (state = DEFAULT_STATE, action) => {
         case AUTH_ERROR:
             return {
                 ...state,
-                isAuthenticated: false,
                 errorMessage: action.payload
             }
         default:

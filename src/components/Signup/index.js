@@ -63,14 +63,16 @@ export const renderInput = ({
 class SignUp extends Component {
     constructor(props) {
         super(props);
-        this.state = {  };
+        this.state = {};
 
         this.onsubmit = this.onsubmit.bind(this);
     }
 
-    onsubmit(formData) {
+    async onsubmit(formData) {
         console.log("onsubmit got called", formData)
-        this.props.signup(formData);
+        const res = await this.props.signup(formData);
+        console.log(res);
+        console.log(this.props.errorMessage);
     }
 
 
@@ -96,6 +98,13 @@ class SignUp extends Component {
                             <InputLabel htmlFor="password">Password</InputLabel>
                             <Field component={renderInput} name="password" type="password" id="password" autoComplete="current-password" />
                         </FormControl>
+                        {
+                            this.props.errorMessage ?
+                                <Typography component="h6" >
+                                    {this.props.errorMessage}
+                                </Typography> : ""
+                        }
+
                         <Button
                             type="submit"
                             fullWidth
@@ -116,8 +125,14 @@ SignUp.propTypes = {
     classes: PropTypes.object.isRequired,
 };
 
+function mapStateToProps(state) {
+    return {
+        errorMessage: state.auth.errorMessage
+    }
+}
+
 export default compose(
-    withStyles(styles), 
-    reduxForm({ form: "SignUp" }),
-    connect(null, actions)
+    connect(mapStateToProps, actions),
+    withStyles(styles),
+    reduxForm({ form: "SignUp" })
 )(SignUp);
