@@ -3,7 +3,8 @@ import axios from 'axios';
 import {
     AUTH_SIGNUP,
     AUTH_ERROR,
-    AUTH_LOGIN
+    AUTH_LOGIN,
+    AUTH_LOGOUT
 } from "./types";
 
 const BaseUrl = "http://localhost:8000"
@@ -43,6 +44,15 @@ export const login = data => {
                 payload: "LOGIN error"
             })
         }
+    }
+}
+export const logout = () => {
+    return async dispatch => {
+        localStorage.removeItem("JWT_TOKEN")
+        dispatch({
+                type: AUTH_LOGOUT,
+                payload: ''
+            });
     }
 }
 

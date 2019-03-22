@@ -27,6 +27,13 @@ const styles = {
 };
 
 class ButtonAppBar extends React.Component {
+    constructor(props){
+        super(props);
+        this.logout = this.logout.bind(this);
+    }
+    logout(){
+        this.props.logout()
+    }
     render(){
     const { classes } = this.props;
     return (
@@ -41,8 +48,9 @@ class ButtonAppBar extends React.Component {
                     </Typography>
                     {
                         this.props.isAuth?
-                            <Button component={Link} to="/login" color="inherit">logout</Button>:
-                            ""
+                            <Button onClick={this.logout} color="inherit">logout</Button>:
+                            <Button component={Link} to="/login" color="inherit">login</Button>
+                            
                     }
                 </Toolbar>
             </AppBar>
