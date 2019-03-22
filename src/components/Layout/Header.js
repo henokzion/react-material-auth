@@ -8,6 +8,10 @@ import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import { Link } from "react-router-dom";
+import { connect } from "react-redux";
+import { compose } from "redux";
+
+import * as actions from "../../actions"
 
 const styles = {
     root: {
@@ -22,8 +26,9 @@ const styles = {
     },
 };
 
-function ButtonAppBar(props) {
-    const { classes } = props;
+class ButtonAppBar extends React.Component {
+    render(){
+    const { classes } = this.props;
     return (
         <div className={classes.root}>
             <AppBar position="static">
@@ -34,15 +39,27 @@ function ButtonAppBar(props) {
                     <Typography variant="h6" color="inherit" className={classes.grow}>
                         News
                     </Typography>
-                    <Button component={Link} to="/login" color="inherit">Login</Button>
+                    {
+                        this.props.isAuth?
+                            <Button component={Link} to="/login" color="inherit">logout</Button>:
+                            ""
+                    }
                 </Toolbar>
             </AppBar>
         </div>
-    );
+    );}
 }
 
 ButtonAppBar.propTypes = {
     classes: PropTypes.object.isRequired,
 };
+function mapStateToProps(state) {
+    return {
+        isAuth: state.auth.isAuthenticated
+    }
+}
 
-export default withStyles(styles)(ButtonAppBar);
+export default compose(
+    connect(mapStateToProps, actions),
+    withStyles(styles)
+)(ButtonAppBar);

@@ -1,6 +1,7 @@
 import {
     AUTH_SIGNUP,
-    AUTH_ERROR
+    AUTH_ERROR,
+    AUTH_LOGIN
 } from "../actions/types";
 
 const DEFAULT_STATE = {
@@ -22,6 +23,13 @@ export default (state = DEFAULT_STATE, action) => {
             return {
                 ...state,
                 errorMessage: action.payload
+            }
+        case AUTH_LOGIN:
+            return {
+                ...state,
+                token: action.payload,
+                isAuthenticated: true,
+                errorMessage: ''
             }
         default:
             return state
