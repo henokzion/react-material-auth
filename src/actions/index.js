@@ -31,7 +31,7 @@ export const signup = data => {
 export const login = data => {
     return async dispatch => {
         try {
-            const res = await axios.post(`${BaseUrl}/login`, data)
+            const res = await axios.post(`${BaseUrl}/signin`, data)
             dispatch({
                 type: AUTH_LOGIN,
                 payload: res.data.token

@@ -13,6 +13,7 @@ import withStyles from '@material-ui/core/styles/withStyles';
 import { reduxForm, Field } from "redux-form";
 import { connect } from "react-redux";
 import { compose } from "redux";
+import { GoogleLogin } from "react-google-login";
 
 import * as actions from "../../actions"
 
@@ -63,24 +64,29 @@ export const renderInput = ({
 class SignIn extends Component {
     constructor(props) {
         super(props);
-        this.state = { email: "", password: "" };
+        this.state = {};
 
-        this.handleChange = this.handleChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
+        this.onsubmit = this.onsubmit.bind(this);
+        this.responseGoogle = this.responseGoogle.bind(this);
     }
 
-    onsubmit(formData) {
-        console.log("onsubmit got called", formData)
+    async onsubmit(formData) {
+        await this.props.login(formData);
+        if(!this.props.errorMessage){
+            this.props.history.push("/");
+        }
     }
 
-    handleChange(event) {
-        this.setState({ value: event.target.value });
+    async responseGoogle (response){
+        console.log(response.accessToken);
+        await this.props.loginWithGoogle({
+            access_token : response.accessToken
+        });
+        if(!this.props.errorMessage){
+            this.props.history.push("/");
+        }
     }
 
-    handleSubmit(event) {
-        alert('A name was submitted: ' + this.state.value);
-        event.preventDefault();
-    }
 
     render() {
         const { classes, handleSubmit } = this.props;
@@ -93,7 +99,7 @@ class SignIn extends Component {
                         <LockOutlinedIcon />
                     </Avatar>
                     <Typography component="h1" variant="h5">
-                        Sign in
+                        Sign UP
                     </Typography>
                     <form className={classes.form} onSubmit={handleSubmit(this.onsubmit)}>
                         <FormControl margin="normal" required fullWidth>
@@ -104,10 +110,19 @@ class SignIn extends Component {
                             <InputLabel htmlFor="password">Password</InputLabel>
                             <Field component={renderInput} name="password" type="password" id="password" autoComplete="current-password" />
                         </FormControl>
-                        {/* <FormControlLabel
-                        control={<Checkbox value="remember" color="primary" />}
-                        label="Remember me"
-                    /> */}
+                        {
+                            this.props.errorMessage ?
+                                <Typography component="h6" >
+                                    {this.props.errorMessage}
+                                </Typography> : ""
+                        }
+                        <GoogleLogin
+                            clientId="366510432233-cp0s337b63lkjg2g8sc2gvjas26gt3ns.apps.googleusercontent.com"
+                            buttonText=""
+                            onSuccess={this.responseGoogle}
+                            onFailure={this.responseGoogle}
+                        />
+                      
                         <Button
                             type="submit"
                             fullWidth
@@ -115,7 +130,7 @@ class SignIn extends Component {
                             color="primary"
                             className={classes.submit}
                         >
-                            Sign in
+                            Sign Up
                     </Button>
                     </form>
                 </Paper>
@@ -128,8 +143,14 @@ SignIn.propTypes = {
     classes: PropTypes.object.isRequired,
 };
 
+function mapStateToProps(state) {
+    return {
+        errorMessage: state.auth.errorMessage
+    }
+}
+
 export default compose(
-    withStyles(styles), 
-    reduxForm({ form: "signin" }),
-    connect(null, actions)
+    connect(mapStateToProps, actions),
+    withStyles(styles),
+    reduxForm({ form: "SignIn" })
 )(SignIn);
